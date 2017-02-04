@@ -1,32 +1,35 @@
 {% extends 'profile.html.twig' %}
 
 {% block profile_body %}
-<div class="row">
-    <div class="col-sm-12">
-        <ul class="nav nav-tabs">
-            <li class="active"><a data-toggle="tab" href="#tbb_a">E-mailové schránky</a></li>
-            <li><a href="{{ path('homepage') }}">Vytvoriť nový e-mail účet</a></li>
-        </ul>
-        <div class="tab-content">
-            <table class="table table-hover">
-                <thead>
-                <tr>
-                    <th>E-mailové konto</th>
-                    <th>Heslo</th>
-                    <th>Meno</th>
-                    <th style="text-align: right">Obsadenosť v MB</th>
-                    <th><div class="user_actions pull-right">&nbsp;</div></th>
-                </tr>
-                </thead>
-                <tbody>
+    <div class="row">
+        <div class="col-sm-12">
+            <ul class="nav nav-tabs">
+                <li class="active"><a data-toggle="tab" href="#tbb_a">Logy</a></li>
+            </ul>
+            <div class="tab-content">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>created</th>
+                        <th>logLevel</th>
+                        <th>description</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for log in results %}
+                        <tr>
+                            <td>{{ log.created |date('Y-m-d H:m:i') }}</td>
+                            <td>{{ log.logLevel }}</td>
+                            <td>{{ log.description }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {#{{  dump(results) }}#}
 
-                </tbody>
-            </table>
         </div>
-        {{  dump(result) }}
-
     </div>
-</div>
 {% endblock %}
 
 {% block stylesheets %}
@@ -40,8 +43,8 @@
 
     <script>
         $(function () {
-            //* delete user
-            $('.remove_user').click(function (e) {
+            //* delete firefighter
+            $('.remove_firefighter').click(function (e) {
                 e.preventDefault();
                 // var
                 var btn = $(this);
@@ -71,5 +74,10 @@
 
     </script>
 {% endblock %}
+
+
+
+
+
 
 

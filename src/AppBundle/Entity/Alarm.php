@@ -40,8 +40,13 @@ class Alarm
      * @ORM\Column(name="callId", type="string", length=255)
      */
     private $callId;
-    
-    
+
+    /**
+     * @ORM\OneToMany(targetEntity="Participation", mappedBy="alarm")
+     */
+    private $participations;
+
+
     /**
     * @ORM\ManyToOne(targetEntity="Operator", inversedBy="alarms")
     * @ORM\JoinColumn(name="operator_id", referencedColumnName="id")
@@ -153,5 +158,46 @@ class Alarm
     public function getCustomer()
     {
         return $this->customer;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->participations = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add participation
+     *
+     * @param \AppBundle\Entity\Participation $participation
+     *
+     * @return Alarm
+     */
+    public function addParticipation(\AppBundle\Entity\Participation $participation)
+    {
+        $this->participations[] = $participation;
+
+        return $this;
+    }
+
+    /**
+     * Remove participation
+     *
+     * @param \AppBundle\Entity\Participation $participation
+     */
+    public function removeParticipation(\AppBundle\Entity\Participation $participation)
+    {
+        $this->participations->removeElement($participation);
+    }
+
+    /**
+     * Get participations
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getParticipations()
+    {
+        return $this->participations;
     }
 }

@@ -1,21 +1,34 @@
-{% extends 'base.html.twig' %}
+{% extends 'profile.html.twig' %}
 
-{% block body %}
-    <h1>User edit</h1>
+{% block profile_body %}
+    <div class="row">
+        <div class="col-sm-12">
+            <ul class="nav nav-tabs">
+                <li><a href="{{ path('operators') }}">Uzivatelia</a></li>
+                <li><a href="{{ path('operator_new') }}">Pridat uzivatela</a></li>
+            </ul>
+            <div class="tab-content">
+                <h1>Editovanie uzivatela</h1>
 
-    {{ form_start(edit_form) }}
-        {{ form_widget(edit_form) }}
-        <input type="submit" value="Edit" />
-    {{ form_end(edit_form) }}
+                {{ form_start(form) }}
+                {{ form_widget(form) }}
+                {{ form_end(form) }}
+            </div>
 
-    <ul>
-        <li>
-            <a href="{{ path('admin_user_index') }}">Back to the list</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
+        </div>
+    </div>
 {% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -17,10 +17,10 @@ class AlarmController extends Controller
 
         $customer = $em->getRepository('AppBundle:Customer')->findOneById(1);        
         
-        $restresult = $em->getRepository('AppBundle:Alarm')->findByCustomer($customer);
+        $results = $em->getRepository('AppBundle:Alarm')->findByCustomer($customer);
         
-        return $this->render('default/index.html.twig', [
-            'result' => $restresult,
+        return $this->render('alarm/index.html.twig', [
+            'results' => $results,
         ]);
     }
     

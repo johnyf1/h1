@@ -4,8 +4,8 @@
     <div class="row">
         <div class="col-sm-12">
             <ul class="nav nav-tabs">
-                <li class="active"><a data-toggle="tab" href="#tbb_a">Uzivatelia</a></li>
-                <li><a href="{{ path('user_new') }}">Pridat uzivatela</a></li>
+                <li class="active"><a data-toggle="tab" href="#tbb_a">Operatory</a></li>
+                <li><a href="{{ path('operator_new') }}">Pridat operatora</a></li>
             </ul>
             <div class="tab-content">
                 <table class="table table-hover">
@@ -19,31 +19,31 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {% for user in results %}
+                    {% for operator in results %}
                         <tr>
-                            <td>{{ user.id }}</td>
-                            <td>{{ user.fullName }}</td>
-                            <td>{{ user.phoneNumber }}</td>
-                            <td>{% if user.enabled == true %}Aktivny{% else %}Neaktivny{% endif %}</td>
+                            <td>{{ operator.id }}</td>
+                            <td>{{ operator.fullName }}</td>
+                            <td>{{ operator.phoneNumber }}</td>
+                            <td>{% if operator.enabled == true %}Aktivny{% else %}Neaktivny{% endif %}</td>
 
                             <td>
-                                    <a href="{{ path('user_edit', { 'id': user.id }) }}" class="btn btn-success"><span class="icon-edit"></span> Editovať</a>
+                                    <a href="{{ path('operator_edit', { 'id': operator.id }) }}" class="btn btn-success"><span class="icon-edit"></span> Editovať</a>
 
-                                    {% if user.enabled == true %}
+                                    {% if operator.enabled == true %}
                                         <div style="float:left;padding-right: 15px">
-                                            <form action="{{ path('user_change', { 'id': user.id, 'type': '0' }) }}" method="post" id="del{{ user.id }}">
+                                            <form action="{{ path('operator_change', { 'id': operator.id, 'type': '0' }) }}" method="post" id="del{{ operator.id }}">
                                                 <button type="submit" class="btn btn-warning "><span class="icon-remove"></span> Deaktivovat</button>
                                             </form>
                                         </div>
                                     {% else %}
                                         <div style="float:left;padding-right: 15px">
-                                            <form action="{{ path('user_change', { 'id': user.id, 'type': '1' }) }}" method="post" id="del{{ user.id }}">
+                                            <form action="{{ path('operator_change', { 'id': operator.id, 'type': '1' }) }}" method="post" id="del{{ operator.id }}">
                                                 <button type="submit" class="btn btn-info "><span class="icon-remove"></span> Aktivovat</button>
                                             </form>
                                         </div>
 
                                         <div style="float:left;padding-right: 15px">
-                                            <form action="{{ path('user_delete', { 'id': user.id }) }}" method="post" id="del{{ user.id }}">
+                                            <form action="{{ path('operator_delete', { 'id': operator.id }) }}" method="post" id="del{{ operator.id }}">
                                                 <button type="submit" class="btn btn-danger remove_user"><span class="icon-remove"></span> Vymazať</button>
                                             </form>
                                         </div>

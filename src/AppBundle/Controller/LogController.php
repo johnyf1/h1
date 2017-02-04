@@ -17,10 +17,10 @@ class LogController extends Controller
 
         $customer = $em->getRepository('AppBundle:Customer')->findOneById(1);        
         
-        $restresult = $em->getRepository('AppBundle:Log')->findByCustomer($customer);
+        $results = $em->getRepository('AppBundle:Log')->findByCustomer($customer);
         
-        return $this->render('default/index.html.twig', [
-            'result' => $restresult,
+        return $this->render('log/index.html.twig', [
+            'results' => $results,
         ]);
     }
     

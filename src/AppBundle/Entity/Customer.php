@@ -75,20 +75,37 @@ class Customer
     /**
     * @ORM\OneToMany(targetEntity="PhoneNumber", mappedBy="customer")
     */
-    private $phoneNumbers; 
+    private $phoneNumbers;
+
+    /**
+     * @ORM\OneToMany(targetEntity="User", mappedBy="customer")
+     */
+
+    private $users;
     
-    
+   
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->operators = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->firefighters = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->recordings = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->phoneNumbers = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->users = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
     /**
      * Get id
      *
-     * @return int
+     * @return integer
      */
     public function getId()
     {
         return $this->id;
     }
 
-    
     /**
      * Set customerName
      *
@@ -112,155 +129,6 @@ class Customer
     {
         return $this->customerName;
     }
-    
-    
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->operators = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->firefighters = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->recordings = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->phoneNumbers = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    /**
-     * Add operator
-     *
-     * @param \AppBundle\Entity\Operator $operator
-     *
-     * @return Customer
-     */
-    public function addOperator(\AppBundle\Entity\Operator $operator)
-    {
-        $this->operators[] = $operator;
-
-        return $this;
-    }
-
-    /**
-     * Remove operator
-     *
-     * @param \AppBundle\Entity\Operator $operator
-     */
-    public function removeOperator(\AppBundle\Entity\Operator $operator)
-    {
-        $this->operators->removeElement($operator);
-    }
-
-    /**
-     * Get operators
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getOperators()
-    {
-        return $this->operators;
-    }
-
-    /**
-     * Add recording
-     *
-     * @param \AppBundle\Entity\Recording $recording
-     *
-     * @return Customer
-     */
-    public function addRecording(\AppBundle\Entity\Recording $recording)
-    {
-        $this->recordings[] = $recording;
-
-        return $this;
-    }
-
-    /**
-     * Remove recording
-     *
-     * @param \AppBundle\Entity\Recording $recording
-     */
-    public function removeRecording(\AppBundle\Entity\Recording $recording)
-    {
-        $this->recordings->removeElement($recording);
-    }
-
-    /**
-     * Get recordings
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getRecordings()
-    {
-        return $this->recordings;
-    }
-
-    /**
-     * Add phoneNumber
-     *
-     * @param \AppBundle\Entity\PhoneNumber $phoneNumber
-     *
-     * @return Customer
-     */
-    public function addPhoneNumber(\AppBundle\Entity\PhoneNumber $phoneNumber)
-    {
-        $this->phoneNumbers[] = $phoneNumber;
-
-        return $this;
-    }
-
-    /**
-     * Remove phoneNumber
-     *
-     * @param \AppBundle\Entity\PhoneNumber $phoneNumber
-     */
-    public function removePhoneNumber(\AppBundle\Entity\PhoneNumber $phoneNumber)
-    {
-        $this->phoneNumbers->removeElement($phoneNumber);
-    }
-
-    /**
-     * Get phoneNumbers
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getPhoneNumbers()
-    {
-        return $this->phoneNumbers;
-    }
-
-    /**
-     * Add firefighter
-     *
-     * @param \AppBundle\Entity\Firefighter $firefighter
-     *
-     * @return Customer
-     */
-    public function addFirefighter(\AppBundle\Entity\Firefighter $firefighter)
-    {
-        $this->firefighters[] = $firefighter;
-
-        return $this;
-    }
-
-    /**
-     * Remove firefighter
-     *
-     * @param \AppBundle\Entity\Firefighter $firefighter
-     */
-    public function removeFirefighter(\AppBundle\Entity\Firefighter $firefighter)
-    {
-        $this->firefighters->removeElement($firefighter);
-    }
-
-    /**
-     * Get firefighters
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getFirefighters()
-    {
-        return $this->firefighters;
-    }
-
 
     /**
      * Set contractId
@@ -356,5 +224,175 @@ class Customer
     public function getSmsSumarNumbers()
     {
         return $this->smsSumarNumbers;
+    }
+
+    /**
+     * Add operator
+     *
+     * @param \AppBundle\Entity\Operator $operator
+     *
+     * @return Customer
+     */
+    public function addOperator(\AppBundle\Entity\Operator $operator)
+    {
+        $this->operators[] = $operator;
+
+        return $this;
+    }
+
+    /**
+     * Remove operator
+     *
+     * @param \AppBundle\Entity\Operator $operator
+     */
+    public function removeOperator(\AppBundle\Entity\Operator $operator)
+    {
+        $this->operators->removeElement($operator);
+    }
+
+    /**
+     * Get operators
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getOperators()
+    {
+        return $this->operators;
+    }
+
+    /**
+     * Add firefighter
+     *
+     * @param \AppBundle\Entity\Firefighter $firefighter
+     *
+     * @return Customer
+     */
+    public function addFirefighter(\AppBundle\Entity\Firefighter $firefighter)
+    {
+        $this->firefighters[] = $firefighter;
+
+        return $this;
+    }
+
+    /**
+     * Remove firefighter
+     *
+     * @param \AppBundle\Entity\Firefighter $firefighter
+     */
+    public function removeFirefighter(\AppBundle\Entity\Firefighter $firefighter)
+    {
+        $this->firefighters->removeElement($firefighter);
+    }
+
+    /**
+     * Get firefighters
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getFirefighters()
+    {
+        return $this->firefighters;
+    }
+
+    /**
+     * Add recording
+     *
+     * @param \AppBundle\Entity\Recording $recording
+     *
+     * @return Customer
+     */
+    public function addRecording(\AppBundle\Entity\Recording $recording)
+    {
+        $this->recordings[] = $recording;
+
+        return $this;
+    }
+
+    /**
+     * Remove recording
+     *
+     * @param \AppBundle\Entity\Recording $recording
+     */
+    public function removeRecording(\AppBundle\Entity\Recording $recording)
+    {
+        $this->recordings->removeElement($recording);
+    }
+
+    /**
+     * Get recordings
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getRecordings()
+    {
+        return $this->recordings;
+    }
+
+    /**
+     * Add phoneNumber
+     *
+     * @param \AppBundle\Entity\PhoneNumber $phoneNumber
+     *
+     * @return Customer
+     */
+    public function addPhoneNumber(\AppBundle\Entity\PhoneNumber $phoneNumber)
+    {
+        $this->phoneNumbers[] = $phoneNumber;
+
+        return $this;
+    }
+
+    /**
+     * Remove phoneNumber
+     *
+     * @param \AppBundle\Entity\PhoneNumber $phoneNumber
+     */
+    public function removePhoneNumber(\AppBundle\Entity\PhoneNumber $phoneNumber)
+    {
+        $this->phoneNumbers->removeElement($phoneNumber);
+    }
+
+    /**
+     * Get phoneNumbers
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPhoneNumbers()
+    {
+        return $this->phoneNumbers;
+    }
+
+    /**
+     * Add user
+     *
+     * @param \AppBundle\Entity\User $user
+     *
+     * @return Customer
+     */
+    public function addUser(\AppBundle\Entity\User $user)
+    {
+        $this->users[] = $user;
+
+        return $this;
+    }
+
+    /**
+     * Remove user
+     *
+     * @param \AppBundle\Entity\User $user
+     */
+    public function removeUser(\AppBundle\Entity\User $user)
+    {
+        $this->users->removeElement($user);
+    }
+
+    /**
+     * Get users
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getUsers()
+    {
+        return $this->users;
     }
 }

@@ -4,8 +4,8 @@
     <div class="row">
         <div class="col-sm-12">
             <ul class="nav nav-tabs">
-                <li class="active"><a data-toggle="tab" href="#tbb_a">Uzivatelia</a></li>
-                <li><a href="{{ path('user_new') }}">Pridat uzivatela</a></li>
+                <li class="active"><a data-toggle="tab" href="#tbb_a">Clenovia zasahovej jednotky</a></li>
+                <li><a href="{{ path('firefighter_new') }}">Pridat clena ZJ</a></li>
             </ul>
             <div class="tab-content">
                 <table class="table table-hover">
@@ -19,32 +19,32 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {% for user in results %}
+                    {% for firefighter in results %}
                         <tr>
-                            <td>{{ user.id }}</td>
-                            <td>{{ user.fullName }}</td>
-                            <td>{{ user.phoneNumber }}</td>
-                            <td>{% if user.enabled == true %}Aktivny{% else %}Neaktivny{% endif %}</td>
+                            <td>{{ firefighter.id }}</td>
+                            <td>{{ firefighter.fullName }}</td>
+                            <td>{{ firefighter.phoneNumber }}</td>
+                            <td>{% if firefighter.enabled == true %}Aktivny{% else %}Neaktivny{% endif %}</td>
 
                             <td>
-                                    <a href="{{ path('user_edit', { 'id': user.id }) }}" class="btn btn-success"><span class="icon-edit"></span> Editovať</a>
+                                    <a href="{{ path('firefighter_edit', { 'id': firefighter.id }) }}" class="btn btn-success"><span class="icon-edit"></span> Editovať</a>
 
-                                    {% if user.enabled == true %}
+                                    {% if firefighter.enabled == true %}
                                         <div style="float:left;padding-right: 15px">
-                                            <form action="{{ path('user_change', { 'id': user.id, 'type': '0' }) }}" method="post" id="del{{ user.id }}">
+                                            <form action="{{ path('firefighter_change', { 'id': firefighter.id, 'type': '0' }) }}" method="post" id="del{{ firefighter.id }}">
                                                 <button type="submit" class="btn btn-warning "><span class="icon-remove"></span> Deaktivovat</button>
                                             </form>
                                         </div>
                                     {% else %}
                                         <div style="float:left;padding-right: 15px">
-                                            <form action="{{ path('user_change', { 'id': user.id, 'type': '1' }) }}" method="post" id="del{{ user.id }}">
+                                            <form action="{{ path('firefighter_change', { 'id': firefighter.id, 'type': '1' }) }}" method="post" id="del{{ firefighter.id }}">
                                                 <button type="submit" class="btn btn-info "><span class="icon-remove"></span> Aktivovat</button>
                                             </form>
                                         </div>
 
                                         <div style="float:left;padding-right: 15px">
-                                            <form action="{{ path('user_delete', { 'id': user.id }) }}" method="post" id="del{{ user.id }}">
-                                                <button type="submit" class="btn btn-danger remove_user"><span class="icon-remove"></span> Vymazať</button>
+                                            <form action="{{ path('firefighter_delete', { 'id': firefighter.id }) }}" method="post" id="del{{ firefighter.id }}">
+                                                <button type="submit" class="btn btn-danger remove_firefighter"><span class="icon-remove"></span> Vymazať</button>
                                             </form>
                                         </div>
                                     {% endif %}
@@ -72,8 +72,8 @@
 
     <script>
         $(function () {
-            //* delete user
-            $('.remove_user').click(function (e) {
+            //* delete firefighter
+            $('.remove_firefighter').click(function (e) {
                 e.preventDefault();
                 // var
                 var btn = $(this);

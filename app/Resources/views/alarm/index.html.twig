@@ -1,0 +1,90 @@
+{% extends 'profile.html.twig' %}
+
+{% block profile_body %}
+    <div class="row">
+        <div class="col-sm-12">
+            <ul class="nav nav-tabs">
+                <li class="active"><a data-toggle="tab" href="#tbb_a">Poplachy</a></li>
+            </ul>
+            <div class="tab-content">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>created</th>
+                        <th>poplach</th>
+                        <th>operator kt. nahlasil</th>
+                        <th>potvrdili ucast</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for alarm in results %}
+                        <tr>
+                            <td>{{ alarm.created |date('Y-m-d H:m:i') }}</td>
+                            <td>{{ alarm.callId }}</td>
+                            <td>{{ alarm.operator.fullName }}</td>
+                            <td>
+                                {% for p in alarm.participations %}
+                                    <div>
+                                        {% if p.participation == 1 %}ANO{% else %}NIE{% endif %} - {{ p.firefighter.fullName }}
+                                    </div>
+                                {% endfor %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('js/lib/bootstrap-switch/stylesheets/bootstrap-switch.css') }}">
+    <link rel="stylesheet" href="{{ asset('js/lib/bootstrap-switch/stylesheets/ebro_bootstrapSwitch.css') }}">
+
+{% endblock %}
+
+{% block jssheets %}
+    <script src="{{ asset('js/lib/bootbox/bootbox.min.js') }}"></script>
+
+    <script>
+        $(function () {
+            //* delete firefighter
+            $('.remove_firefighter').click(function (e) {
+                e.preventDefault();
+                // var
+                var btn = $(this);
+                bootbox.dialog({
+                    message: '<div class="text-center lead">Are you sure?</div>',
+                    title: 'Deleting',
+                    buttons: {
+                        cancel: {
+                            label: "Cancel",
+                            className: "btn-link",
+                            callback: function () {
+                            }
+                        },
+                        confirm: {
+                            label: "Delete",
+                            className: "btn-danger",
+                            callback: function () {
+                                btn.parent('form').submit();
+                                //this.form.submit();
+                            }
+                        }
+                    }
+                });
+            })
+
+        })
+
+    </script>
+{% endblock %}
+
+
+
+
+
+
+

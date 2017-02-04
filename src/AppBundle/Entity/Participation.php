@@ -55,7 +55,7 @@ class Participation
     private $firefighter;
 
     /**
-    * @ORM\ManyToOne(targetEntity="Alarm")
+    * @ORM\ManyToOne(targetEntity="Alarm",inversedBy="participations")
     * @ORM\JoinColumn(name="alarm_id", referencedColumnName="id")
     */
     private $alarm;

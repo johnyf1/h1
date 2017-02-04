@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div id="main_content_outer" class="clearfix">
+    <div class="row">
+            <div class="col-sm-3"> 
+                {#<div class="form-group">#}
+                    {#<legend><span>{{ app.session.get('session_name') }}</span></legend>#}
+                {#</div>#}
+                {{ knp_menu_render('AppBundle:Builder:mainMenu' , {'currentClass': 'active','allow_safe_labels': true}) | raw  }}
+{#                {% include 'left_menu.twig' %}#}
+            </div>
+
+            <div class="col-sm-9">
+            {% include 'flash_notifications.html.twig' %}
+                
+             
+            {% block profile_body %}
+            {% endblock %}
+            </div>
+    </div>	
+</div>				
+{% endblock %}
