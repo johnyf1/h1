@@ -1,0 +1,22 @@
+<form method="post" action="{{ path('filter_change') }}" id="f1">
+{#<div class="col-sm-2"  style="border:0px solid red;">
+    <div class="input-group">
+        <span class="input-group-addon">{{ form_label(form.topic, 'Filtrovať') }}</span>
+        {{ form_widget(form.topic, { 'attr': {'class': 'typeahead form-control'}}) }}
+    </div>
+</div>#}
+        {{ form_widget(form.customer) }}
+{#<div class="col-sm-3"  style="border:0px solid red;">
+    <div class="input-group">
+        <span class="input-group-addon">{{ form_label(form.name, 'Kategória') }}</span>
+        {{ form_widget(form.id, { 'attr': {'class': 'typeahead form-control'}}) }}
+    </div>
+</div>
+<div class="col-sm-3"  style="border:0px solid red;">
+    <div class="input-group">
+        <span class="input-group-addon">Klúčové slovo</span>
+        {{ form_widget(form.query, { 'attr': {'class': 'typeahead form-control', 'placeholder': 'Vyhľadavaný výraz'}}) }}
+    </div>
+</div>#}
+{#        {{ form_widget(form.filter) }}#}
+</form>

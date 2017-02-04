@@ -1,0 +1,29 @@
+{% if app.session.flashbag.has('notice') %}
+    <div class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        {{ app.session.flashbag.get('notice').0 }}
+    </div>
+ {% endif %}    
+
+{% if app.session.flashbag.has('error') %}
+    <div class="alert alert-danger">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        {{ app.session.flashbag.get('error').0 }}
+    </div>
+ {% endif %}    
+
+{% if app.session.flashbag.has('warning') %}
+    <div class="alert alert-warning">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        {{ app.session.flashbag.get('warning').0 }}
+    </div>
+ {% endif %}    
+
+ {% if app.session.flashbag.has('info') %}
+    <div class="alert alert-info">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        {{ app.session.flashbag.get('info').0 }}
+    </div>
+ {% endif %}    
+
+ 

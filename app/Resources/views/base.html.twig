@@ -1,13 +1,232 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>4y.sk webhosting administration</title>
+		
+		<meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+		<link rel="shortcut icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+		
+	<!-- bootstrap framework-->
+		<link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}">
+	<!-- todc-bootstrap -->
+		<link rel="stylesheet" href="{{ asset('css/todc-bootstrap.min.css') }}">
+	<!-- font awesome -->        
+		<link rel="stylesheet" href="{{ asset('css/font-awesome/css/font-awesome.min.css') }}">
+	<!-- flag icon set -->        
+		<link rel="stylesheet" href="{{ asset('img/flags/flags.css') }}">
+	<!-- retina ready -->
+		<link rel="stylesheet" href="{{ asset('css/retina.css') }}">
+	<!-- bootstrap switch -->
+		<link rel="stylesheet" href="{{ asset('js/lib/bootstrap-switch/stylesheets/bootstrap-switch.css') }}">
+		<link rel="stylesheet" href="{{ asset('js/lib/bootstrap-switch/stylesheets/ebro_bootstrapSwitch.css') }}">	
+	
+	<!-- aditional stylesheets -->
+        <!-- vector map -->
+			<link rel="stylesheet" href="{{ asset('js/lib/jvectormap/jquery-jvectormap-1.2.2.css') }}">
+		<!-- owl carousel -->        
+			<link rel="stylesheet" href="{{ asset('js/lib/owl-carousel/owl.carousel.css') }}">
+		<!-- responsive lightbox -->
+			<link rel="stylesheet" href="{{ asset('js/lib/magnific-popup/magnific-popup.css') }}">
+		<!-- linecons -->        
+			<link rel="stylesheet" href="{{ asset('css/linecons/style.css') }}">
+		<!-- fullcalendar -->
+			<link rel="stylesheet" href="{{ asset('js/lib/fullcalendar/fullcalendar.css') }}">
+
+	<!-- ebro styles -->
+		<link rel="stylesheet" href="{{ asset('css/style.css') }}">
+	<!-- ebro theme -->
+		<link rel="stylesheet" href="{{ asset('css/theme/color_15.css') }}" id="theme">
+		
+	<!--[if lt IE 9]>
+		<link rel="stylesheet" href="{{ asset('css/ie.css') }}">
+		<script src="{{ asset('js/ie/html5shiv.js') }}"></script>
+		<script src="{{ asset('js/ie/respond.min.js') }}"></script>
+		<script src="{{ asset('js/ie/excanvas.min.js') }}"></script>
+	<![endif]-->
+        
         {% block stylesheets %}{% endblock %}
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
-    </body>
+
+	<!-- custom fonts -->
+{#		<link href='http://fonts.googleapis.com/css?family=Roboto:300,700&amp;subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+#}			
+	</head>
+	<body>
+		<div id="wrapper_all">
+			<header id="top_header">
+				<div class="container">
+					<div class="row">
+						<div class="col-sm-2">
+							<a href="{{ path('profile_index') }}" class="logo_main" title="4y.sk">
+                                                        <img src="{{ asset('img/logo_main.png') }}" alt="">
+                                                        </a>
+						</div>
+						<div class="col-sm-4 text-right">
+                                                    {% if app.user %}
+                                                    <div class="col-sm-4">
+                                                        <label>Zákazník :</label>
+                                                    </div>    
+                                                    <div class="col-sm-8 text-right">                                                    
+                                                    {% if app.session.get('session_customer') != null %}
+                                                    {{ render(controller('AppBundle:Default:filterCustomerSelect')) }}
+                                                    </div>
+                                                    {% endif %}                                                       
+						</div>
+						<div class="col-sm-4 text-right">
+                                                    {% if app.session.get('session_service') != null %}
+                                                    <div class="col-sm-4">
+                                                        <label>Doména :</label>
+                                                    </div>    
+                                                    <div class="col-sm-8 text-right">                                                    
+                                                       {{ render(controller('AppBundle:Default:filterServiceSelect')) }}
+                                                       {% endif %}
+                                                    </div>
+                                                    {% endif %}                                                                                                        
+						</div>
+						<div class="col-sm-2 text-right" style="border:0px solid red;">
+							<a href="{{ path('fos_user_security_logout') }}">
+                                                        <button class="btn btn-primary btn-block btn-lg">Log Out</button>
+                                                        </a>                                                    
+						</div>
+
+					</div>
+				</div>
+			</header>						
+			<nav id="top_navigatio">
+				<div class="container">                                    
+{% if '/admin/' in app.request.uri %}
+    {{ knp_menu_render('admin' , {'currentClass': 'active','allow_safe_labels': true}) | raw }}
+    {#{% include 'admin_menu.twig' %}#}
+{#{% elseif if '/reseller/' in url %}#}
+{% else %}
+    {{ knp_menu_render('main' , {'currentClass': 'active','current_ancestor': 'link_active','allow_safe_labels': true}) | raw }}
+    {#{% include 'main_menu.twig' %}#}
+{% endif %}
+				</div>
+			</nav>			
+			<section class="container clearfix main_section">
+{% block body %}				
+{% endblock %}
+			</section>
+
+			<div id="footer_space"></div>
+		</div>
+	
+        <footer id="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-3">
+                        &copy; 2016 WDT, s.r.o.
+                    </div>
+                    <div class="col-sm-8">
+                        {#
+                        <ul>
+                            <li><a href="{{ asset('#') }}">Dashboard</a></li>
+                            <li>&middot;</li>
+                            <li><a href="{{ asset('#') }}">Terms of Service</a></li>
+                            <li>&middot;</li>
+                            <li><a href="{{ asset('#') }}">Privacy Policy</a></li>
+                            <li>&middot;</li>
+                            <li><a href="{{ asset('#') }}">Contact us</a></li>
+                        </ul>
+                        #}
+                    </div>
+                    <div class="col-sm-1 text-right">
+                        <small class="text-muted">v2.0</small>
+                    </div>
+                </div>
+            </div>
+        </footer>
+  
+	<!--[[ common plugins ]]-->
+	
+	<!-- jQuery -->
+		<script src="{{ asset('js/jquery.min.js') }}"></script>
+                <script>
+                $(function() {
+                    $('#form_customer').change(function() {
+                        this.form.submit();
+                    });
+                });    
+                $(function() {
+                    $('#form_service').change(function() {
+                        this.form.submit();
+                    });
+                });                        
+                </script>    
+	<!-- bootstrap framework -->
+		<script src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
+	<!-- jQuery resize event -->
+		<script src="{{ asset('js/jquery.ba-resize.min.js') }}"></script>
+	<!-- jquery cookie -->
+		<script src="{{ asset('js/jquery_cookie.min.js') }}"></script>
+	<!-- retina ready -->
+		<script src="{{ asset('js/retina.min.js') }}"></script>
+	<!-- typeahead -->
+		<script src="{{ asset('js/lib/typeahead.js/typeahead.min.js') }}"></script>
+		<script src="{{ asset('js/lib/typeahead.js/hogan-2.0.0.js') }}"></script>
+
+	<!-- tinyNav -->
+		<script src="{{ asset('js/tinynav.js') }}"></script>
+	<!-- slimscroll -->
+		<script src="{{ asset('js/lib/jQuery-slimScroll/jquery.slimscroll.min.js') }}"></script>
+	
+	<!-- bootstrap switch -->
+		<script src="{{ asset('js/lib/bootstrap-switch/js/bootstrap-switch.min.js') }}"></script>
+	
+	<!-- touchSwipe -->
+		<script src="{{ asset('js/lib/TouchSwipe/jquery.touchSwipe.min.js') }}"></script>
+		
+	<!-- Navgoco -->
+		<script src="{{ asset('js/lib/navgoco/jquery.navgoco.min.js') }}"></script>
+		
+	<!-- ebro common scripts/functions -->
+		<script src="{{ asset('js/ebro_common.js') }}"></script>
+	
+	
+	<!--[[ page specific plugins ]]-->
+
+	<!-- sticky -->
+		<script src="{{ asset('js/jquery.sticky.js') }}"></script>
+	<!-- peity (small charts) -->
+		<script src="{{ asset('js/lib/peity/jquery.peity.min.js') }}"></script>
+	<!-- vector map -->
+		<script src="{{ asset('js/lib/jvectormap/jquery-jvectormap-1.2.2.min.js') }}"></script>
+		<script src="{{ asset('js/lib/jvectormap/maps/jquery-jvectormap-world-mill-en.js') }}"></script>
+	<!-- easy pie chart -->
+		<script src="{{ asset('js/lib/easy-pie-chart/jquery.easy-pie-chart.js') }}"></script>
+	<!-- charts -->
+		<script src="{{ asset('js/lib/flot/jquery.flot.min.js') }}"></script>
+		<script src="{{ asset('js/lib/flot/jquery.flot.pie.min.js') }}"></script>
+		<script src="{{ asset('js/lib/flot/jquery.flot.time.min.js') }}"></script>
+		<script src="{{ asset('js/lib/flot/jquery.flot.tooltip.min.js') }}"></script>
+		<script src="{{ asset('js/lib/flot/jquery.flot.resize.js') }}"></script>
+	<!-- video embed -->
+		<script src="{{ asset('js/lib/FitVids/jquery.fitvids.js') }}"></script>
+	<!-- carousel -->
+		<script src="{{ asset('js/lib/owl-carousel/owl.carousel.min.js') }}"></script>
+	<!-- responsive lightbox -->
+		<script src="{{ asset('js/lib/magnific-popup/jquery.magnific-popup.min.js') }}"></script>
+	<!-- jQueryUi -->
+		<script src="{{ asset('js/lib/jquery_ui/jquery-ui-1.10.3.custom.min.js') }}"></script>
+	<!-- fullcalendar -->
+		<script src="{{ asset('js/lib/fullcalendar/fullcalendar.js') }}"></script>
+		
+		<script src="{{ asset('js/pages/ebro_dashboard.js') }}"></script>
+                {% block javascripts %}{% endblock %}
+
+	<!--[if lte IE 9]>
+		<script src="{{ asset('js/ie/jquery.placeholder.js') }}"></script>
+		<script>
+			$(function() {
+				$('input, textarea').placeholder();
+			});
+		</script>
+	<![endif]-->
+                {% block jssheets %}{% endblock %}
+
+
+	</body>
 </html>
+        
+        
