@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * recording
@@ -25,8 +26,14 @@ class Recording
      * @var string
      *
      * @ORM\Column(name="recordingName", type="string", length=255)
+     * @Assert\NotBlank(message="Please upload a valid WAV file.")
+     * @Assert\File(
+     *     maxSize = "1024k",
+     *     )
      */
+//     mimeTypes={ "audio" }
     private $recordingName;
+
 
     /**
      * @var string
@@ -34,6 +41,13 @@ class Recording
      * @ORM\Column(name="path", type="string", length=255)
      */
     private $path;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="isDefault", type="boolean")
+     */
+    private $isDefault = 0;
 
     /**
     * @ORM\ManyToOne(targetEntity="Customer", inversedBy="recordings")
@@ -122,5 +136,29 @@ class Recording
     public function getCustomer()
     {
         return $this->customer;
+    }
+
+    /**
+     * Set isDefault
+     *
+     * @param boolean $isDefault
+     *
+     * @return Recording
+     */
+    public function setIsDefault($isDefault)
+    {
+        $this->isDefault = $isDefault;
+
+        return $this;
+    }
+
+    /**
+     * Get isDefault
+     *
+     * @return boolean
+     */
+    public function getIsDefault()
+    {
+        return $this->isDefault;
     }
 }

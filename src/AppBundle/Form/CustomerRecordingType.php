@@ -9,8 +9,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType; 
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
-class UserEditType extends AbstractType
+use AppBundle\Entity\Recording;
+
+class CustomerRecordingType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -19,15 +22,8 @@ class UserEditType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('fullName')
-//            ->add(
-//                'customer', EntityType::class,
-//                array(
-//                    'class' => 'AppBundle:Customer',
-//                    'choice_label' => 'customerName',
-//                )
-//            )
-            ->add('save', SubmitType::class)
+            ->add('recordingName', FileType::class, array('label' => 'Upload a wav file'))
+            ->add('upload', SubmitType::class)
         ;
     }
     
@@ -37,7 +33,9 @@ class UserEditType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\User'
+//            'data_class' => 'AppBundle\Entity\Recording'
+            'data_class' => Recording::class,
+
         ));
     }
 }

@@ -10,4 +10,14 @@ namespace AppBundle\Repository;
  */
 class LogRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function getLastFiveLogs($customer){
+
+        $queryBuilder = $this->createQueryBuilder('l')
+            ->where('l.customer = :customer')
+            ->setParameter('customer', $customer)
+            ->setMaxResults(5)
+            ->orderBy('l.id', 'DESC');
+        return $queryBuilder->getQuery()->getResult();
+    }
+
 }

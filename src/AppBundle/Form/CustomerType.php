@@ -10,7 +10,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
-class UserEditType extends AbstractType
+class CustomerType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -19,14 +19,10 @@ class UserEditType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('fullName')
-//            ->add(
-//                'customer', EntityType::class,
-//                array(
-//                    'class' => 'AppBundle:Customer',
-//                    'choice_label' => 'customerName',
-//                )
-//            )
+            ->add('customerName')
+            ->add('isSmsEnabled')
+            ->add('isSmsSumarEnabled')
+            ->add('smsSumarNumbers')
             ->add('save', SubmitType::class)
         ;
     }
@@ -37,7 +33,7 @@ class UserEditType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\User'
+            'data_class' => 'AppBundle\Entity\Customer'
         ));
     }
 }

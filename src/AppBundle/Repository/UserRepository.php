@@ -15,4 +15,11 @@ class UserRepository extends \Doctrine\ORM\EntityRepository
         return $queryBuilder->getQuery()->getOneOrNullResult();
     }
 
+    public function getAllMyUsers($customer){
+
+        $queryBuilder = $this->createQueryBuilder('u')
+            ->where('u.customer = :customer')
+            ->setParameter('customer', $customer);
+        return $queryBuilder->getQuery()->getResult();
+    }
 }

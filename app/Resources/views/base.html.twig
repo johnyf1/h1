@@ -45,9 +45,12 @@
                                                         <img src="{{ asset('img/logo-viptel-big.png') }}" alt="">
                                                         </a>
 						</div>
-						<div class="col-sm-4 text-right">Debug:
+						<div class="col-sm-4 text-right">
+                            {#
+                            Debug:
                             userId: {{ app.session.get('session_user') }}
                             customerId: {{ app.session.get('session_customer') }}
+                            #}
 
 
                             {#{% if app.user %}#}

@@ -10,4 +10,14 @@ namespace AppBundle\Repository;
  */
 class AlarmRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function getLastFiveAlarms($customer){
+
+        $queryBuilder = $this->createQueryBuilder('a')
+            ->where('a.customer = :customer')
+            ->setParameter('customer', $customer)
+            ->setMaxResults(5)
+            ->orderBy('a.id', 'DESC');
+        return $queryBuilder->getQuery()->getResult();
+    }
+
 }

@@ -4,15 +4,215 @@
     <div class="row">
         <div class="col-sm-12">
             <ul class="nav nav-tabs">
+                <li class="active"><a data-toggle="tab" href="#tbb_a">Zakladne nastavenia</a></li>
+            </ul>
+            <div class="tab-content">
+
+                {{ form_start(form) }}
+                {{ form_widget(form) }}
+                {{ form_end(form) }}
+
+
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-sm-12">
+            <ul class="nav nav-tabs">
+                <li class="active"><a data-toggle="tab" href="#tbb_a">Telefonne cisla</a></li>
+            </ul>
+            <div class="tab-content">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>telefonne cislo</th>
+                        <th>trunk name</th>
+                        <th>isPublic ?</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% if result.phoneNumbers is not empty %}
+                        {% for pn in result.phoneNumbers %}
+                            <tr>
+                                <td>{{ pn.phoneNumber }}</td>
+                                <td>{{ pn.trunkName }}</td>
+                                <td>{% if pn.isPublic == 1 %}Verejne (nahlasovanie poplachov){% else %}Privatne (zadanie poplachov){% endif %}</td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="2">Ziadna nahravka este nebola nahrata</td>
+                        </tr>
+
+                    {% endif %}
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <div class="row">
+        <div class="col-sm-12">
+            <ul class="nav nav-tabs">
                 <li class="active"><a data-toggle="tab" href="#tbb_a">Zakaznik</a></li>
             </ul>
             <div class="tab-content">
 
+                <div class="col-lg-4 col-md-6">
+                    <div class="box_stat box_ico">
+                        <span class="stat_ico stat_ico_1"><i class="li_vallet"></i></span>
+                        <h4>{{  result.operators | length }}</h4>
+                        <small>operator</small>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="box_stat box_ico">
+                        <span class="stat_ico stat_ico_2"><i class="li_user"></i></span>
+                        <h4>{{  result.firefighters | length }}</h4>
+                        <small>zasahova jednotka</small>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="box_stat box_ico">
+                        <span class="stat_ico stat_ico_3"><i class="li_banknote"></i></span>
+                        <h4>{{  result.users | length }}</h4>
+                        <small>uzivatelia</small>
+                    </div>
+                </div>
+
             </div>
-            {{  dump(result) }}
 
         </div>
     </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <ul class="nav nav-tabs">
+                <li class="active"><a data-toggle="tab" href="#tbb_a">Nahravky</a></li>
+            </ul>
+            <div>
+                <h1>Nahrat nahravku</h1>
+
+                {{ form_start(recForm) }}
+                {{ form_widget(recForm) }}
+                {{ form_end(recForm) }}
+
+            </div>
+            <div class="tab-content">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>stav</th>
+                        <th>recordingName</th>
+                        <th>path</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% if recordings is not empty %}
+                        {% for rec in recordings %}
+                            <tr>
+                                <td>{% if rec.isDefault == 1 %}Aktivna{% else %}Neaktivna{% endif %}</td>
+                                <td>{{ rec.recordingName }}</td>
+                                <td>{{ rec.path }}</td>
+                                <td><a href="{{ asset('web/uploads/recordings/' ~ rec.recordingName) }}">download (WAV)</a></td>
+                                <td>
+                                    <div style="float:left;padding-right: 15px">
+                                        <form action="{{ path('rec_delete', { 'id': rec.id }) }}" method="post" id="del{{ rec.id }}">
+                                            <button type="submit" class="btn btn-danger remove_user"><span class="icon-remove"></span> Vymazať</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="2">Ziadna nahravka este nebola nahrata</td>
+                        </tr>
+
+                    {% endif %}
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+    {#<div class="row">#}
+        {#<div class="col-sm-12">#}
+            {#<ul class="nav nav-tabs">#}
+                {#<li class="active"><a data-toggle="tab" href="#tbb_a">Vypis poslednych 5 poplachov</a></li>#}
+            {#</ul>#}
+            {#<div class="tab-content">#}
+                {#<table class="table table-hover">#}
+                    {#<thead>#}
+                    {#<tr>#}
+                        {#<th>created</th>#}
+                        {#<th>poplach</th>#}
+                        {#<th>operator kt. nahlasil</th>#}
+                        {#<th>potvrdili ucast</th>#}
+                    {#</tr>#}
+                    {#</thead>#}
+                    {#<tbody>#}
+                    {#{% for alarm in alarms %}#}
+                        {#<tr>#}
+                            {#<td>{{ alarm.created |date('Y-m-d H:m:i') }}</td>#}
+                            {#<td>{{ alarm.callId }}</td>#}
+                            {#<td>{{ alarm.operator.fullName }}</td>#}
+                            {#<td>#}
+                                {#{% for p in alarm.participations %}#}
+                                    {#<div>#}
+                                        {#{% if p.participation == 1 %}ANO{% else %}NIE{% endif %} - {{ p.firefighter.fullName }}#}
+                                    {#</div>#}
+                                {#{% endfor %}#}
+                            {#</td>#}
+                        {#</tr>#}
+                    {#{% endfor %}#}
+                    {#</tbody>#}
+                {#</table>#}
+            {#</div>#}
+
+            {#<div class="row">#}
+                {#<div class="col-sm-12">#}
+                    {#<ul class="nav nav-tabs">#}
+                        {#<li class="active"><a data-toggle="tab" href="#tbb_a">Vypis poslednych 5 logov</a></li>#}
+                    {#</ul>#}
+                    {#<div class="tab-content">#}
+                        {#<table class="table table-hover">#}
+                            {#<thead>#}
+                            {#<tr>#}
+                                {#<th>created</th>#}
+                                {#<th>logLevel</th>#}
+                                {#<th>description</th>#}
+                            {#</tr>#}
+                            {#</thead>#}
+                            {#<tbody>#}
+                            {#{% for log in logs %}#}
+                                {#<tr>#}
+                                    {#<td>{{ log.created |date('Y-m-d H:m:i') }}</td>#}
+                                    {#<td>{{ log.logLevel }}</td>#}
+                                    {#<td>{{ log.description }}</td>#}
+                                {#</tr>#}
+                            {#{% endfor %}#}
+                            {#</tbody>#}
+                        {#</table>#}
+                    {#</div>#}
+
+                {#</div>#}
+            {#</div>#}
+
+        {#</div>#}
+    {#</div>#}
+
+
+
 {% endblock %}
 
 {% block stylesheets %}

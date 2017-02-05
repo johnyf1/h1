@@ -75,6 +75,7 @@ class UserController extends Controller
             $em->flush();
 
             return $this->redirectToRoute('users');
+            $this->get('session')->getFlashBag()->add('notice', 'user bol pridany uspesne.');
         }
 
         return $this->render('user/new.html.twig', array(
@@ -88,16 +89,22 @@ class UserController extends Controller
      */
     public function changeAction(Request $request,$id,$type)
     {
+        $userId = $this->user;
         $customer = $this->customer;
 
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('AppBundle:User')->getOneById($id,$customer);
 
         if ($user) {
-            if ($type == 1) { $user->setEnabled(true); }
-            if ($type == 0) { $user->setEnabled(false); }
-            $em->persist($user);
-            $this->get('session')->getFlashBag()->add('notice', 'user bol editovany uspesne.');
+            if ($user->getId() == $userId) {
+                $this->get('session')->getFlashBag()->add('error', 'Nieje mozne deaktivovat aktualne prihlaseneho uzivatela.' );
+            } else {
+                if ($type == 1) { $user->setEnabled(true); }
+                if ($type == 0) { $user->setEnabled(false); }
+                $em->persist($user);
+                $this->get('session')->getFlashBag()->add('notice', 'user bol editovany uspesne.');
+            }
+
         }
 
         $em->flush();
@@ -145,18 +152,32 @@ class UserController extends Controller
      */
     public function deleteAction(Request $request,$id)
     {
+        $userId = $this->user;
         $customer = $this->customer;
 
         $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('AppBundle:User')->getOneById($id,$customer);
-        if ($user) {
-            $em->remove($user);
-            $em->flush();
+        $users = $em->getRepository('AppBundle:User')->getAllMyUsers($customer);
 
-            $this->get('session')->getFlashBag()->add('notice', 'user bol uspesne vymazany.');
+        if( count($users) <= 1 ) {
+            $this->get('session')->getFlashBag()->add('error', 'Was not successful, because there is only one user in your list of users!' );
         } else {
-            $this->get('session')->getFlashBag()->add('warning', 'user nebol vymazany.');
+            $user = $em->getRepository('AppBundle:User')->getOneById($id,$customer);
+            if ($user) {
+                //can not delete currently logged user
+                if ($user->getId() == $userId) {
+                    $this->get('session')->getFlashBag()->add('error', 'Nieje mozne vymazat aktualne prihlaseneho uzivatela.' );
+                } else {
+                    $em->remove($user);
+                    $em->flush();
+
+                    $this->get('session')->getFlashBag()->add('notice', 'user bol uspesne vymazany.' );
+                }
+            } else {
+                $this->get('session')->getFlashBag()->add('warning', 'user nebol vymazany.');
+            }
         }
+
+
 
         return $this->redirectToRoute('users');
     }
