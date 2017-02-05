@@ -17,16 +17,24 @@ use AppBundle\Entity\Operator;
  */
 class OperatorController extends Controller
 {
+    protected $user;
+    protected $customer;
+
+    public function __construct() {
+        $session =          new Session();
+        $this->user =       $session->get('session_user');
+        $this->customer =   $session->get('session_customer');
+    }
+
     /**
      * @Route("/", name="operators")
      * @Method({"GET"})
      */
     public function indexAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();    
+        $customer = $this->customer;
 
-        $customer = $em->getRepository('AppBundle:Customer')->findOneById(1);        
-        
+        $em = $this->getDoctrine()->getManager();
         $result = $em->getRepository('AppBundle:Operator')->findByCustomer($customer);
         
         return $this->render('operator/index.html.twig', [
@@ -41,7 +49,9 @@ class OperatorController extends Controller
     public function newAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $customer = $em->getRepository('AppBundle:Customer')->findOneById(1);
+
+        $customer = $this->customer;
+        $customer = $em->getRepository('AppBundle:Customer')->findOneById($customer);
 
         $operator = new Operator();
         $form = $this->createForm('AppBundle\Form\OperatorType', $operator);
@@ -72,11 +82,10 @@ class OperatorController extends Controller
      */
     public function changeAction(Request $request,$id,$type)
     {
-        $em = $this->getDoctrine()->getManager();
+        $customer = $this->customer;
 
-        //pridat este kontrolu na CustomerID
-        //$customer = $em->getRepository('AppBundle:Customer')->findOneById(1);
-        $operator = $em->getRepository('AppBundle:Operator')->findOneById($id);
+        $em = $this->getDoctrine()->getManager();
+        $operator = $em->getRepository('AppBundle:Operator')->getOperatorById($id,$customer);
 
         if ($operator) {
             if ($type == 1) { $operator->setEnabled(true); }
@@ -96,10 +105,10 @@ class OperatorController extends Controller
      */
     public function editAction(Request $request,$id)
     {
+        $customer = $this->customer;
+
         $em = $this->getDoctrine()->getManager();
-        //TODO
-        // if posted ID belongs to current CustomerID
-        $operator = $em->getRepository('AppBundle:Operator')->findOneById($id);
+        $operator = $em->getRepository('AppBundle:Operator')->getOperatorById($id,$customer);
 
         if ( $operator ) {
             $form = $this->createForm('AppBundle\Form\OperatorType', $operator);
@@ -131,9 +140,10 @@ class OperatorController extends Controller
      */
     public function deleteAction(Request $request,$id)
     {
+        $customer = $this->customer;
+
         $em = $this->getDoctrine()->getManager();
-        // security check
-        $operator = $em->getRepository('AppBundle:Operator')->findOneById($id);
+        $operator = $em->getRepository('AppBundle:Operator')->getOperatorById($id,$customer);
         if ($operator) {
             $em->remove($operator);
             $em->flush();

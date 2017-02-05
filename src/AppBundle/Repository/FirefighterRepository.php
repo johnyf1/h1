@@ -19,5 +19,19 @@ class FirefighterRepository extends \Doctrine\ORM\EntityRepository
             ->setParameter('phoneNumber', $number)
             ->setMaxResults(1);
         return $queryBuilder->getQuery()->getOneOrNullResult();
-    }        
+    }
+
+    public function getFirefighterById($id,$customer){
+
+        $queryBuilder = $this->createQueryBuilder('o')
+            ->where('o.id = :id')
+            ->setParameter('id', $id)
+            ->andWhere('o.customer = :customer')
+            ->setParameter('customer', $customer)
+            ->setMaxResults(1);
+        return $queryBuilder->getQuery()->getOneOrNullResult();
+    }
+
+
+
 }

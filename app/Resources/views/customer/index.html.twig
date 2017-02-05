@@ -1,0 +1,66 @@
+{% extends 'profile.html.twig' %}
+
+{% block profile_body %}
+    <div class="row">
+        <div class="col-sm-12">
+            <ul class="nav nav-tabs">
+                <li class="active"><a data-toggle="tab" href="#tbb_a">Zakaznik</a></li>
+            </ul>
+            <div class="tab-content">
+
+            </div>
+            {{  dump(result) }}
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('js/lib/bootstrap-switch/stylesheets/bootstrap-switch.css') }}">
+    <link rel="stylesheet" href="{{ asset('js/lib/bootstrap-switch/stylesheets/ebro_bootstrapSwitch.css') }}">
+
+{% endblock %}
+
+{% block jssheets %}
+    <script src="{{ asset('js/lib/bootbox/bootbox.min.js') }}"></script>
+
+    <script>
+        $(function () {
+            //* delete user
+            $('.remove_user').click(function (e) {
+                e.preventDefault();
+                // var
+                var btn = $(this);
+                bootbox.dialog({
+                    message: '<div class="text-center lead">Are you sure?</div>',
+                    title: 'Deleting',
+                    buttons: {
+                        cancel: {
+                            label: "Cancel",
+                            className: "btn-link",
+                            callback: function () {
+                            }
+                        },
+                        confirm: {
+                            label: "Delete",
+                            className: "btn-danger",
+                            callback: function () {
+                                btn.parent('form').submit();
+                                //this.form.submit();
+                            }
+                        }
+                    }
+                });
+            })
+
+        })
+
+    </script>
+{% endblock %}
+
+
+
+
+
+
+

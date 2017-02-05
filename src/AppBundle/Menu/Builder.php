@@ -59,7 +59,7 @@ class Builder implements ContainerAwareInterface
         ));
 
         $menu->addChild('<span class="icon-dashboard"></span>Users', array(
-            'route' => 'homepage',
+            'route' => 'users',
             'class' => 'js-sub-menu-toggle',
             'extras' => array(
                 'safe_label' => true

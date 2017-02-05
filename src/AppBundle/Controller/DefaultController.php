@@ -23,10 +23,10 @@ class DefaultController extends Controller
         if ( $user ) {
             $session = new Session;
             $customer = $user->getCustomer();
-//            $session->set('session_user', $user->getId());
-//            $session->set('session_customer', $customer->getId());
-            $session->set('session_user', $user);
-            $session->set('session_customer', $customer);
+            $session->set('session_user', $user->getId());
+            $session->set('session_customer', $customer->getId());
+//            $session->set('session_user', $user);
+//            $session->set('session_customer', $customer);
 
             return $this->redirectToRoute('homepage');
 

@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 
-class LogController extends Controller
+class CustomerController extends Controller
 {
     protected $user;
     protected $customer;
@@ -20,17 +20,17 @@ class LogController extends Controller
     }
 
     /**
-     * @Route("/logs", name="logs")
+     * @Route("/", name="homepage")
      */
     public function indexAction(Request $request)
     {
         $customer = $this->customer;
 
-        $em = $this->getDoctrine()->getManager();
-        $results = $em->getRepository('AppBundle:Log')->findByCustomer($customer);
+        $em = $this->getDoctrine()->getManager();    
+        $result = $em->getRepository('AppBundle:Customer')->findOneById($customer);
         
-        return $this->render('log/index.html.twig', [
-            'results' => $results,
+        return $this->render('customer/index.html.twig', [
+            'result' => $result,
         ]);
     }
     

@@ -11,19 +11,19 @@
                 <table class="table table-hover">
                     <thead>
                     <tr>
-                        <th>id</th>
+                        <th>email</th>
                         <th>cele meno</th>
-                        <th>telefonne cislo</th>
-                        <th>stav</th>
+                        <th>uzivatel vytvoreny</th>
+                        <th>Stav</th>
                         <th>Akcie</th>
                     </tr>
                     </thead>
                     <tbody>
-                    {% for user in results %}
+                    {% for user in users %}
                         <tr>
-                            <td>{{ user.id }}</td>
+                            <td>{{ user.email }}</td>
                             <td>{{ user.fullName }}</td>
-                            <td>{{ user.phoneNumber }}</td>
+                            <td>{{ user.created |date('Y-m-d H:m:i') }}</td>
                             <td>{% if user.enabled == true %}Aktivny{% else %}Neaktivny{% endif %}</td>
 
                             <td>
@@ -55,7 +55,6 @@
                     </tbody>
                 </table>
             </div>
-            {#{{  dump(results) }}#}
 
         </div>
     </div>
